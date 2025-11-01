@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Quotations{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Quotations</h1>
+        <a href="{% url 'quotation_create' %}" class="btn btn-primary">Create Quotation</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Title</th>
+                <th>Created At</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quotation in quotations %}
+                <tr>
+                    <td>{{ quotation.client_name }}</td>
+                    <td>{{ quotation.title }}</td>
+                    <td>{{ quotation.created_at|date:"d M Y" }}</td>
+                    <td>{{ quotation.total_amount }}</td>
+                    <td>
+                        <a href="{% url 'quotation_view' quotation.pk %}" class="btn btn-sm btn-info">View</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No quotations found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

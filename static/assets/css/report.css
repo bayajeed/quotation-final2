@@ -1,0 +1,115 @@
+
+      body {
+        font-family: sans-serif;
+      }
+      .report-container {
+        background-color: #fff;
+        /* padding: 1.5cm; */
+        border: 1px solid #dee2e6;
+        margin: 20px auto;
+        max-width: 230mm; /* A4 width 210*/
+      }
+      .pdf-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* padding-bottom: 10px; */
+        border-bottom: 2px solid #000;
+        position: relative;
+        bottom: 20px;
+      }
+      .company-logo {
+        max-width: 70px;
+        height: auto;
+        margin-right: 10px;
+        object-fit: contain;
+        position: relative;
+        top: 50px;
+      }
+      .company-info{
+        position: relative;
+        bottom: 5px;
+        font-size: large;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      .quotation-details {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0 !important;
+      }
+      .quotation-details p {
+        margin: 0 10px 0 5px !important;
+        font-size: 14px !important;
+        display: inline-block !important; /* Add this */
+        white-space: nowrap; /* Optional, prevents wrapping */
+      }
+      .footer {
+        text-align: center;
+        font-size: 9px;
+        border-top: 1px solid #dee2e6;
+        padding-top: 5px;
+        margin-top: 20px;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          position: relative;
+          margin-top: 75px;
+          margin-bottom: 20px;
+          padding: 0px;
+          font-size: 11px;
+        }
+        .report-container,
+        .report-container * {
+          visibility: visible;
+        }
+        .report-container {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          border: none;
+        }
+        .no-print-on-report {
+          display: none !important;
+        }
+        .table td,
+        .table th {
+          padding: 1px 2px !important;
+          line-height: 1 !important;
+        }
+        table {
+          display: block;
+        }
+        tr {
+          page-break-before: avoid;
+          page-break-after: avoid;
+        }
+      }
+      @page {
+        size: A4;
+        margin: 0.7cm;
+      }
+      .table td,
+      .table th {
+        padding: 5px 6px !important;
+        vertical-align: middle !important;
+        font-size: 14px;
+        line-height: 1.1 !important;
+        border: 1.5px solid #000 !important;
+      }
+      .group-header td,
+      .subtotal-row td,
+      .grand-total-row td {
+        padding: 3px 6px !important;
+        font-weight: 600;
+      }

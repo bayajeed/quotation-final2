@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ quotation.title }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ quotation.title }}</h1>
+        <div>
+            <a href="{% url 'quotation_print' quotation.pk %}" class="btn btn-primary">Print</a>
+            <a href="{% url 'quotation-pdf' quotation.pk %}" class="btn btn-danger">Download PDF</a>
+            <a href="{% url 'quotation_update' quotation.pk %}" class="btn btn-secondary">Edit</a>
+            <a href="{% url 'quotation_delete' quotation.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+
+    <p><strong>Client:</strong> {{ quotation.client_name }}</p>
+    <p><strong>Date:</strong> {{ quotation.created_at|date:"d M Y" }}</p>
+
+    <hr>
+
+    {% for group in quotation.groups.all %}
+        <div class="card mb-3">
+            <div class="card-header">{{ group.name }}</div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in group.items.all %}
+                            <tr>
+                                <td>{{ item.item.name }}</td>
+                                <td>{{ item.qty }}</td>
+                                <td>{{ item.item.unit.name }}</td>
+                                <td>{{ item.unit_price }}</td>
+                                <td>{{ item.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="text-end">
+        <h3>Total Amount: {{ quotation.total_amount }}</h3>
+    </div>
+{% endblock %}
