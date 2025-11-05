@@ -43,11 +43,12 @@ class QuotationTemplateSerializer(serializers.ModelSerializer):
 
 
 class QuotationItemSerializer(serializers.ModelSerializer):
-    item = ItemSerializer()
+    item = ItemSerializer(required=False)
+    unit = UnitSerializer(required=False)
 
     class Meta:
         model = QuotationItem
-        fields = ('id', 'item', 'qty', 'unit_price', 'total_price')
+        fields = ('id', 'item', 'description', 'unit', 'qty', 'unit_price', 'total_price')
 
 
 class QuotationGroupSerializer(serializers.ModelSerializer):

@@ -78,7 +78,6 @@ def process_groups(request, quotation):
             continue # Don't create a group without a name
 
         group = QuotationGroup.objects.create(quotation=quotation, name=group_name)
-        item_group, _ = ItemGroup.objects.get_or_create(name=group_name)
 
         for item_index, item_data in sorted(data.get('items', {}).items()):
             description = item_data.get('description', '').strip()
@@ -95,32 +94,33 @@ def process_groups(request, quotation):
             except ValueError:
                 unit_price = 0.0
 
-            unit, _ = Unit.objects.get_or_create(name=item_data.get('unit', ''))
-            
-            try:
-                item = Item.objects.get(name=description, group=item_group)
-                created = False
-            except Item.DoesNotExist:
-                item = Item.objects.create(
-                    name=description,
-                    group=item_group,
-                    unit=unit,
-                    unit_price=unit_price
+            unit_name = item_data.get('unit', '').strip()
+            unit = None
+            if unit_name:
+                unit, _ = Unit.objects.get_or_create(name=unit_name)
+
+            item_id = item_data.get('item_id')
+            item = None
+            if item_id:
+                try:
+                    item = Item.objects.get(id=item_id)
+                except Item.DoesNotExist:
+                    pass # Item not found, will be treated as a custom item
+
+            # If no item is found, create a QuotationItem with a description only.
+            if not item:
+                QuotationItem.objects.create(
+                    group=group,
+                    description=description,
+                    qty=qty,
+                    unit_price=unit_price,
+                    unit=unit
                 )
-                created = True
-            except Item.MultipleObjectsReturned:
-                # This indicates a data integrity issue but we'll proceed by picking one.
-                item = Item.objects.filter(name=description, group=item_group).first()
-                created = False
-
-            if not created and (item.unit != unit or item.unit_price != unit_price):
-                item.unit = unit
-                item.unit_price = unit_price
-                item.save()
-
-            QuotationItem.objects.create(
-                group=group,
-                item=item,
-                qty=qty,
-                unit_price=unit_price
-            )
+            else:
+                QuotationItem.objects.create(
+                    group=group,
+                    item=item,
+                    qty=qty,
+                    unit_price=unit_price,
+                    unit=unit
+                )

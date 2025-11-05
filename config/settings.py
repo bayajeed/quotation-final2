@@ -138,7 +138,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory where static files will be c
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-
     # Media files (Uploaded by users)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media' # Directory where media files will be stored

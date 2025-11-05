@@ -35,9 +35,21 @@
                     <tbody>
                         {% for item in group.items.all %}
                             <tr>
-                                <td>{{ item.item.name }}</td>
+                                <td>
+                                    {% if item.description %}
+                                        {{ item.description }}
+                                    {% elif item.item %}
+                                        {{ item.item.name }}
+                                    {% endif %}
+                                </td>
                                 <td>{{ item.qty }}</td>
-                                <td>{{ item.item.unit.name }}</td>
+                                <td>
+                                    {% if item.unit %}
+                                        {{ item.unit.name }}
+                                    {% elif item.item and item.item.unit %}
+                                        {{ item.item.unit.name }}
+                                    {% endif %}
+                                </td>
                                 <td>{{ item.unit_price }}</td>
                                 <td>{{ item.total_price }}</td>
                             </tr>

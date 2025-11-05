@@ -119,10 +119,22 @@ def generate_quotation_pdf(quotation):
 
         # --- Items under this group ---
         for item in group.items.all():
+            description = ''
+            if item.description:
+                description = item.description
+            elif item.item:
+                description = item.item.name
+
+            unit_name = ''
+            if item.unit:
+                unit_name = item.unit.name
+            elif item.item and item.item.unit:
+                unit_name = item.item.unit.name
+
             pdf.cell(10, 5.5, str(sl), 1, 0, 'C')
-            pdf.cell(85, 5.5, item.item.name, 1, 0, 'L')
+            pdf.cell(85, 5.5, description, 1, 0, 'L')
             pdf.cell(20, 5.5, str(item.qty), 1, 0, 'R')
-            pdf.cell(20, 5.5, item.item.unit.name, 1, 0, 'C')
+            pdf.cell(20, 5.5, unit_name, 1, 0, 'C')
             pdf.cell(27, 5.5, f'{item.unit_price:,.2f}', 1, 0, 'R')
             pdf.cell(28, 5.5, f'{item.total_price:,.2f}', 1, 1, 'R')
             sl += 1  # Serial increment
@@ -145,6 +157,7 @@ def generate_quotation_pdf(quotation):
     # 🔤 Total in Words
     # ----------------------------
     total_in_words = number_to_words_indian(quotation.total_amount())
+    total_in_words = total_in_words.replace('lakh', 'lac').replace('Lakhs', 'Lacs')
     pdf.set_font('Times', 'B', 12)
     pdf.cell(25, 10, 'In Words:', 0, 0)
     pdf.set_font('Times', '', 12)

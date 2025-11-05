@@ -74,14 +74,26 @@ class QuotationGroup(models.Model):
 
 class QuotationItem(models.Model):
     group = models.ForeignKey(QuotationGroup, on_delete=models.CASCADE, related_name='items')
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    unit = models.ForeignKey(Unit, on_delete=models.SET_NULL, null=True, blank=True)
     qty = models.FloatField(default=0)
     unit_price = models.FloatField(default=0)
     total_price = models.FloatField(default=0)
 
     def save(self, *args, **kwargs):
+        # If the item is not from the master list, ensure it has a description.
+        if not self.item and not self.description:
+            raise ValueError("QuotationItem must have either an item or a description.")
+
+        # If a description is provided without a master item, it's a custom item.
+        if self.description and not self.item:
+            # Optionally, you could create a temporary Item here if you need to,
+            # but the goal is to avoid populating the master Item list.
+            pass
+
         self.total_price = self.qty * self.unit_price
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.item.name
+        return self.description or self.item.name
