@@ -37,11 +37,6 @@ class PDF(FPDF):
         self.set_x(35)
         self.cell(0, 5, 'Phone: 01711 183 455 | Email: unikopower@gmail.com', ln=1)
 
-        # --- নিচে লাইন ---
-        # self.set_line_width(0.5)
-        # self.line(10, 24, 200, 24) # x1, y1, x2, y2
-        # self.ln(10)  # Line break / spacing
-
     def add_page(self, orientation='', format='', same=False):
         """
         ✅ প্রতিবার নতুন পেজ যুক্ত হলে কনটেন্টের শুরুর পজিশন ঠিক করে।

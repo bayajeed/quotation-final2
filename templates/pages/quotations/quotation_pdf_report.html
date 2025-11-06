@@ -132,7 +132,7 @@
           <img src="{{ logo_url }}" alt="Logo" class="company-logo" />
         </div>
         <div class="text-end mt-0 company-info">
-          <h4 class="mb-0"><strong>Uniko Power Engineering Ltd.</strong></h4>
+          <h4 class="mb-0"><strong>Uniko Power Engineering Company</strong></h4>
           <small>House #18, Lane #15, Block C, Mirpur #10, Dhaka</small><br />
           <small> Phone: 01711 183 455 | unikopower@gmail.com</small>
         </div>
@@ -143,7 +143,6 @@
           <!-- <p><strong>Address: {{ quotation.client_address }}</strong></p> -->
           <p><strong>Project: {{ quotation.title }}</strong></p>
           <p><strong>Ref: #:</strong>Uniko/sub/120{{ quotation.pk }}</p>
-          <p><strong>Date:</strong> {{ quotation.created_at|date:"d M Y" }}</p>
         </div>
       </div>
       <table class="table table-bordered">
@@ -165,9 +164,9 @@
           {% for item in group.items.all %}
           <tr>
             <td class="text-center">{{ forloop.counter }}</td>
-            <td>{{ item.item.name }}</td>
+            <td>{{ item.description }}</td>
             <td class="text-end">{{ item.qty }}</td>
-            <td>{{ item.item.unit.name }}</td>
+            <td>{{ item.unit.name }}</td>
             <td class="text-end">{{ item.unit_price|floatformat:2 }}</td>
             <td class="text-end">{{ item.total_price|floatformat:2 }}</td>
           </tr>

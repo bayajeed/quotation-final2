@@ -9,58 +9,46 @@
       rel="stylesheet"
     />
     <style>
+      /* On-screen styles */
       body {
         font-family: sans-serif;
       }
       .report-container {
         background-color: #fff;
-        /* padding: 1.5cm; */
         border: 1px solid #dee2e6;
         margin: 20px auto;
-        max-width: 230mm; /* A4 width 210*/
+        max-width: 210mm;
       }
       .pdf-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        /* padding-bottom: 10px; */
         border-bottom: 2px solid #000;
-        position: relative;
-        bottom: 20px;
+        padding: 10px 20px;
       }
       .company-logo {
         max-width: 70px;
         height: auto;
-        margin-right: 10px;
         object-fit: contain;
-        position: relative;
-        top: -7px;
-        left: 23px;
       }
       .company-info{
-        position: relative;
-        bottom: 5px;
         font-size: large;
       }
       .header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-top: 15px;
-        margin-bottom: 15px;
+        margin: 15px 20px;
       }
       .quotation-details {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        margin-bottom: 0 !important;
       }
       .quotation-details p {
         margin: 0 10px 0 5px !important;
         font-size: 14px !important;
-        display: inline-block !important; /* Add this */
-        white-space: nowrap; /* Optional, prevents wrapping */
-        font-weight: 700  !important;
+        font-weight: 700 !important;
       }
       .footer {
         text-align: center;
@@ -70,60 +58,67 @@
         margin-top: 20px;
         font-weight: 700 !important;
       }
-      /* Print-specific styles */
-      @media print {
-        body {
-          position: relative;
-          margin: 130px 0 10px 70px;
-          padding: 0;
-          font-size: 14px !important;
-          zoom: 0.8;
-          font-weight: bold !important;
-        }
-        .report-container,
-        .report-container * {
-          visibility: visible;
-        }
-        .report-container {
-          position: absolute;
-          left: 0;
-          top: 0;
+      .table {
           width: 100%;
-          padding: 0;
-          margin: 0;
-          border: none;
-        }
-        .no-print-on-report,
-        .hide-on-browser-print {
-          display: none !important;
-        }
-        .table td,
-        .table th {
-          padding: 1px 2px !important;
-          line-height: 1 !important;
-        }
-      }
-      @page {
-        size: letter;
-        margin: 0.5cm;
+          border-collapse: collapse;
       }
       .table td,
       .table th {
         padding: 5px 6px !important;
         vertical-align: middle !important;
         font-size: 16px;
-        line-height: 1 !important;
+        line-height: 1.2 !important;
         border: 1.5px solid #000 !important;
       }
       .group-header td {
         background-color: #f8f9fa;
         font-weight: 600;
-        padding: 3px 6px !important;
       }
       .subtotal-row td,
       .grand-total-row td {
-        padding: 3px 6px !important;
         font-weight: 600;
+      }
+
+      /* --- FINAL HYBRID PRINT STYLES --- */
+      @media print {
+        @page {
+            size: letter;
+            /* This creates the repeating top margin on ALL pages */
+            margin: 2cm 1cm 1cm 1.5cm;
+        }
+
+        body {
+          margin: 0; /* Body margin is removed in favor of @page margin */
+          padding: 0;
+          font-size: 14px !important;
+          zoom: 0.8; /* High-density zoom from demo */
+        }
+
+        .no-print-on-report,
+        .pdf-header,
+        .header {
+          display: none !important;
+        }
+
+        .report-container {
+          border: none;
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          max-width: 100%;
+        }
+
+        /* High-density table styles from demo */
+        .table td,
+        .table th {
+          padding: 1px 2px !important;
+          line-height: 1.2 !important;
+          font-weight: bold !important;
+        }
+
+        thead {
+          display: table-header-group;
+        }
       }
     </style>
   </head>

@@ -32,13 +32,13 @@ def number_to_words_indian(num):
     if crore > 0:
         output += three_digits(crore) + ' crore '
     if lakh > 0:
-        output += three_digits(lakh) + ' lakh '
+        output += three_digits(lakh) + ' lac '
     if thousand > 0:
         output += three_digits(thousand) + ' thousand '
     if num > 0:
         output += three_digits(num)
 
-    return output.strip().replace('  ', ' ').capitalize()
+    return output.strip().replace('  ', ' ').title()
 
 def process_groups(request, quotation):
     groups_data = {}

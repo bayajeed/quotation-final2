@@ -149,7 +149,7 @@
 
                 itemRow.innerHTML = `
                     <input type="hidden" name="groups-${groupIndex}-items-${itemIndex}-item_id" value="${item.id || ''}">
-                    <td><input type="text" name="groups-${groupIndex}-items-${itemIndex}-description" class="form-control" placeholder="Description" value="${description}" ${item.id ? '' : ''}></td>
+                    <td><input type="text" name="groups-${groupIndex}-items-${itemIndex}-description" class="form-control" placeholder="Description" value="${description}" ${item.id ? 'readonly' : ''}></td>
                     <td><input type="number" name="groups-${groupIndex}-items-${itemIndex}-qty" class="form-control qty" placeholder="Qty" value="${qty}"></td>
                     <td>
                         <select name="groups-${groupIndex}-items-${itemIndex}-unit" class="form-select unit">
