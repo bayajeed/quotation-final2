@@ -17,7 +17,7 @@
         background-color: #fff;
         border: 1px solid #dee2e6;
         margin: 20px auto;
-        max-width: 210mm;
+        max-width: 230mm;
       }
       .pdf-header {
         display: flex;
@@ -44,11 +44,14 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
+        margin-bottom: 0 !important;
       }
       .quotation-details p {
         margin: 0 5px 0 5px !important;
-        font-size: 18px !important;
+        font-size: 17px !important;
         font-weight: 700 !important;
+        display: inline-block !important; /* Add this */
+        white-space: nowrap; /* Optional, prevents wrapping */
       }
       .footer {
         text-align: center;
@@ -84,47 +87,58 @@
       }
       /* --- FINAL HYBRID PRINT STYLES --- */
       @media print {
-        @page {
-            size: letter;
-            /* This creates the repeating top margin on ALL pages */
-            margin: 2.5cm 1.15cm 1cm 1.8cm;
-        }
-
         body {
-          margin: 0; /* Body margin is removed in favor of @page margin */
+          position: relative;
+          margin: 133px 50px 0px 80px;
           padding: 0;
           font-size: 14px !important;
-          zoom: 0.8; /* High-density zoom from demo */
-
-
+          zoom: 0.8;
           font-weight: bold !important;
         }
-
+        .report-container,
+        .report-container * {
+          visibility: visible;
+        }
+        .report-container {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          border: none;
+        }
         .no-print-on-report,
-        .pdf-header,
-        .txt-end .report-container {
+        .hide-on-browser-print {
           display: none !important;
         }
-
-        .report-container {
-          border: none;
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          max-width: 100%;
-        }
-
-        /* High-density table styles from demo */
         .table td,
         .table th {
-          padding: 2.3px 7px !important ;
-          line-height: 1.2 !important;
-          font-weight: bold !important;
+          padding: 1px 1px !important;
+          line-height: 1 !important;
         }
-
-        thead {
-          display: table-header-group;
-        }
+      }
+      @page {
+        size: letter;
+        margin: 0.5cm;
+      }
+      .table td,
+      .table th {
+        padding: 4.5px 5px !important;
+        vertical-align: middle !important;
+        font-size: 16px;
+        line-height: 1 !important;
+        border: 1.5px solid #000 !important;
+      }
+      .group-header td {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        padding: 3px 6px !important;
+      }
+      .subtotal-row td,
+      .grand-total-row td {
+        padding: 3px 6px !important;
+        font-weight: 600;
       }
     </style>
   </head>
@@ -140,7 +154,7 @@
           <img src="{{ logo_url }}" alt="Logo" class="company-logo" />
         </div>
         <div class="text-end mt-0 company-info">
-          <h4 class="mb-0"><strong>Uniko Power Engineering Ltd.</strong></h4>
+          <h4 class="mb-0"><strong>Uniko Power Engineering Company</strong></h4>
           <small>House #18, Lane #15, Block C, Mirpur #10, Dhaka</small><br />
           <small> Phone: 01711 183 455 | unikopower@gmail.com</small>
         </div>
@@ -159,11 +173,11 @@
           <thead class="table-light">
             <tr>
               <th style="width: 5%" class="text-center">SL</th>
-              <th style="width: 49%">Description</th>
+              <th style="width: 51%">Description</th>
               <th style="width: 7%" class="text-center">Qty</th>
               <th style="width: 8%" class="text-center">Unit</th>
-              <th style="width: 15%" class="text-end">Unit Price</th>
-              <th style="width: 16%" class="text-end">Total Price</th>
+              <th style="width: 14%" class="text-end">Unit Price</th>
+              <th style="width: 15%" class="text-end">Total Price</th>
             </tr>
           </thead>
           <tbody>
