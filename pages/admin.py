@@ -34,8 +34,9 @@ class QuotationGroupAdmin(admin.ModelAdmin):
 class QuotationTemplateItemInline(admin.TabularInline):
     model = QuotationTemplateItem
     extra = 1
-    fields = ('item', 'qty', 'unit_price')
+    fields = ('order', 'item', 'qty', 'unit_price')
     autocomplete_fields = ['item']
+    sortable_field_name = "order"
 
 
 @admin.register(QuotationTemplate)

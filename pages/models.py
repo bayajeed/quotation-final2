@@ -39,6 +39,10 @@ class QuotationTemplateItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     qty = models.FloatField(default=1)
     unit_price = models.FloatField(null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
 
     def total_price(self):
         price = self.unit_price if self.unit_price is not None else self.item.unit_price
