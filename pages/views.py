@@ -12,13 +12,14 @@ from .serializers import QuotationTemplateSerializer, QuotationSerializer
 from .forms import (
                 QuotationForm, ItemForm, ItemGroupForm, UnitForm
 )
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .utils import process_groups, number_to_words_indian
 from django.templatetags.static import static
 from django.http import HttpResponse
+from django.db.models import Q
 
 from django.conf import settings
 import os
@@ -28,9 +29,90 @@ class QuotationListView(ListView):
     model = Quotation
     template_name = 'pages/quotations/quotation_list.html'
     context_object_name = 'quotations'
+    paginate_by = 10
 
     def get_queryset(self):
-        return Quotation.objects.all().order_by('-created_at')
+        queryset = Quotation.objects.filter(status='active').order_by('-created_at')
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) |
+                Q(client_name__icontains=search_query)
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        quotations = self.get_queryset()
+        paginator = Paginator(quotations, self.paginate_by)
+        page = self.request.GET.get('page')
+        try:
+            quotations_page = paginator.page(page)
+        except PageNotAnInteger:
+            quotations_page = paginator.page(1)
+        except EmptyPage:
+            quotations_page = paginator.page(paginator.num_pages)
+        context['quotations'] = quotations_page
+        return context
+
+@method_decorator(login_required, name='dispatch')
+class ArchivedQuotationListView(ListView):
+    model = Quotation
+    template_name = 'pages/quotations/archived_quotation_list.html'
+    context_object_name = 'quotations'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Quotation.objects.filter(status='archived').order_by('-created_at')
+
+@method_decorator(login_required, name='dispatch')
+class RejectedQuotationListView(ListView):
+    model = Quotation
+    template_name = 'pages/quotations/rejected_quotation_list.html'
+    context_object_name = 'quotations'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Quotation.objects.filter(status='rejected').order_by('-created_at')
+
+@method_decorator(login_required, name='dispatch')
+class AchievedQuotationListView(ListView):
+    model = Quotation
+    template_name = 'pages/quotations/achieved_quotation_list.html'
+    context_object_name = 'quotations'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Quotation.objects.filter(status='achieved').order_by('-created_at')
+
+@login_required
+def archive_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'archived'
+    quotation.save()
+    return redirect('quotation_list')
+
+@login_required
+def unarchive_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'active'
+    quotation.save()
+    return redirect('archived_quotation_list')
+
+@login_required
+def reject_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'rejected'
+    quotation.save()
+    return redirect('quotation_list')
+
+@login_required
+def achieve_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'achieved'
+    quotation.save()
+    return redirect('quotation_list')
+
 
 @method_decorator(login_required, name='dispatch')
 class QuotationDetailView(DetailView):

@@ -53,10 +53,17 @@ class QuotationTemplateItem(models.Model):
 
 
 class Quotation(models.Model):
+    STATUS_CHOICES = (
+        ('active', 'Active'),
+        ('archived', 'Archived'),
+        ('rejected', 'Rejected'),
+        ('achieved', 'Achieved'),
+    )
     title = models.CharField(max_length=255)
     client_name = models.CharField(max_length=255)
     template = models.ForeignKey(QuotationTemplate, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
 
     def total_amount(self):
         return sum(group.subtotal() for group in self.groups.all())

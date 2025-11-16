@@ -1,37 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Quotations{% endblock %}
+{% block title %}Achieved Quotations{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-6">
-            <h1>Active Quotations</h1>
+            <h1>Achieved Quotations</h1>
         </div>
         <div class="col-md-6 text-md-end">
-            <a href="{% url 'quotation_create' %}" class="btn btn-primary me-2">Create Quotation</a>
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Other Lists
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{% url 'archived_quotation_list' %}">Archived</a></li>
-                    <li><a class="dropdown-item" href="{% url 'rejected_quotation_list' %}">Rejected</a></li>
-                    <li><a class="dropdown-item" href="{% url 'achieved_quotation_list' %}">Achieved</a></li>
-                </ul>
-            </div>
+            <a href="{% url 'quotation_list' %}" class="btn btn-primary">Back to Active List</a>
         </div>
     </div>
 
     <div class="card shadow-sm mb-4">
-        <div class="card-header">
-            <form method="get" action="{% url 'quotation_list' %}">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="q" placeholder="Search by client or title..." value="{{ request.GET.q }}">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </div>
-            </form>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -42,7 +24,6 @@
                             <th>Title</th>
                             <th>Created At</th>
                             <th class="text-end">Total Amount</th>
-                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,23 +34,10 @@
                             <td>{{ quotation.title }}</td>
                             <td>{{ quotation.created_at|date:"d M Y" }}</td>
                             <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'quotation_view' quotation.pk %}" class="btn btn-sm btn-outline-info me-1">View</a>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        More
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="{% url 'archive_quotation' quotation.pk %}">Archive</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'reject_quotation' quotation.pk %}">Reject</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'achieve_quotation' quotation.pk %}">Achieve</a></li>
-                                    </ul>
-                                </div>
-                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="7" class="text-center">No active quotations found.</td>
+                            <td colspan="6" class="text-center">No achieved quotations found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

@@ -21,6 +21,13 @@ from .views import (
     UnitUpdateView,
     UnitDeleteView,
     quotation_pdf_view,
+    ArchivedQuotationListView,
+    RejectedQuotationListView,
+    AchievedQuotationListView,
+    archive_quotation,
+    unarchive_quotation,
+    reject_quotation,
+    achieve_quotation,
 )
 
 urlpatterns = [
@@ -32,6 +39,15 @@ urlpatterns = [
     path('<int:pk>/report/', QuotationReportView.as_view(), name='quotation_report'),
     path('<int:pk>/print/', QuotationPrintView.as_view(), name='quotation_print'),
     path('api/templates/<int:pk>/', QuotationTemplateDetailAPIView.as_view(), name='quotation_template_api'),
+
+    path('archived/', ArchivedQuotationListView.as_view(), name='archived_quotation_list'),
+    path('rejected/', RejectedQuotationListView.as_view(), name='rejected_quotation_list'),
+    path('achieved/', AchievedQuotationListView.as_view(), name='achieved_quotation_list'),
+
+    path('<int:pk>/archive/', archive_quotation, name='archive_quotation'),
+    path('<int:pk>/unarchive/', unarchive_quotation, name='unarchive_quotation'),
+    path('<int:pk>/reject/', reject_quotation, name='reject_quotation'),
+    path('<int:pk>/achieve/', achieve_quotation, name='achieve_quotation'),
 
     path('items/', ItemListView.as_view(), name='item_list'),
     path('items/create/', ItemCreateView.as_view(), name='item_create'),
