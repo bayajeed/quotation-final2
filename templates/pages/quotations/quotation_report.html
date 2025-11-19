@@ -84,6 +84,9 @@
       .in-words p{
         margin-top: 0px !important;
         margin-bottom: 0rem !important;
+        font-size: 160px !important;
+        font-weight: 700 !important;
+
       }
       /* --- FINAL HYBRID PRINT STYLES --- */
       @media print {
@@ -117,6 +120,12 @@
           padding: 1px 1px !important;
           line-height: 1 !important;
         }
+        /* .in-words p{
+                margin-top: 0px !important;
+                margin-bottom: 0rem !important;
+                font-size: 160px !important;
+                font-weight: 700 !important;
+              } */
       }
       @page {
         size: letter;
@@ -127,7 +136,7 @@
         padding: 4.5px 5px !important;
         vertical-align: middle !important;
         font-size: 16px;
-        line-height: 1 !important;
+        line-height: 0.9 !important;
         border: 1.5px solid #000 !important;
       }
       .group-header td {
@@ -212,16 +221,21 @@
               <td class="text-end">{{ group.subtotal|floatformat:2 }}</td>
             </tr>
             {% endfor %}
-            <tr class="grand-total-row">
+            <tr class="grand-total-row" >
               <td colspan="5" class="text-end">Grand Total</td>
               <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
+            </tr>
+            <tr class="in-words-row">
+              <td colspan="6">
+                <strong>In Words: <span id="total-in-words"></span></strong>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="in-words mt-0">
+      <!-- <div class="in-words mt-0">
         <p><strong>In Words: <span id="total-in-words"></span></strong></p>
-      </div>
+      </div> -->
       <div class="footer">
         <p>Thank you for your business! | Uniko Power</p>
       </div>

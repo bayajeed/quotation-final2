@@ -38,9 +38,12 @@
                     <thead class="table-light">
                         <tr>
                             <th>SL</th>
+                            <th>Client ID</th>
                             <th>Client</th>
                             <th>Title</th>
                             <th>Created At</th>
+                            <th>Status</th>
+                            <th>User</th>
                             <th class="text-end">Total Amount</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -49,9 +52,18 @@
                         {% for quotation in quotations %}
                         <tr>
                             <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+                            <td>{{ quotation.id }}</td>
                             <td>{{ quotation.client_name }}</td>
                             <td>{{ quotation.title }}</td>
                             <td>{{ quotation.created_at|date:"d M Y" }}</td>
+                            <td>{{ quotation.get_status_display }}</td>
+                            <td>
+                                {% if quotation.user %}
+                                    {{ quotation.user.username }}
+                                {% else %}
+                                    No User Found
+                                {% endif %}
+                            </td>
                             <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
                             <td class="text-center">
                                 <a href="{% url 'quotation_view' quotation.pk %}" class="btn btn-sm btn-outline-info me-1">View</a>

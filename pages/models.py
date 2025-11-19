@@ -64,6 +64,7 @@ class Quotation(models.Model):
     template = models.ForeignKey(QuotationTemplate, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True)
 
     def total_amount(self):
         return sum(group.subtotal() for group in self.groups.all())

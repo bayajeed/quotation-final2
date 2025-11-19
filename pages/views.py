@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -149,7 +150,13 @@ class QuotationCreateView(View):
     def post(self, request):
         form = QuotationForm(request.POST)
         if form.is_valid():
-            quotation = form.save()
+            # quotation = form.save()
+
+            # This way we can set the user before saving
+            quotation = form.save(commit=False) # Commit False karon "user" set korar jonno 
+            quotation.user = request.user     # ✅ এখানে ইউজার সেট করুন
+            quotation.save()
+
             process_groups(request, quotation)
             return redirect('quotation_view', pk=quotation.pk)
         templates = QuotationTemplate.objects.all()
