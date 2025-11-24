@@ -3,6 +3,78 @@
 {% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Quotation{% endblock %}
 
 {% block content %}
+
+<style>
+
+    /* Table responsive */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+    .table-responsive::-webkit-scrollbar {
+            height: 16px; /* এখানে height বাড়ালে scrollbar মোটা হবে */
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #b5b5b5;
+            border-radius: 10px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: #e9e9e9;
+        }
+
+    /* input focus animation */
+    input.form-control,
+    select.form-select {
+        transition: transform 0.15s ease, box-shadow 0.15s ease, padding 0.15s ease;
+        white-space: nowrap;      /* text এক লাইনেই থাকবে */
+        overflow: hidden;         /* normal অবস্থায় hidden */
+    }
+
+    input.form-control:focus,
+    select.form-select:focus {
+        transform: scale(1.03);
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.45);
+        border-color: #80bdff;
+        z-index: 10;
+
+        overflow: visible !important;   /* focus হলে text পুরোটা দেখাবে */
+        position: relative;             /* overflow visible কাজ করাতে দরকার */
+    }
+
+
+    /* Always bigger description column */
+    .desc-col {
+        min-width: 280px;   /* <- এইটা নিশ্চিত করে যে description সবসময় বড় */
+        width: 45%;
+    }
+
+    /* Small fields */
+    .qty-col { min-width: 80px; width: 10%;}
+    .unit-col { min-width: 100px; width: 15%;}
+    .price-col { min-width: 120px; width: 17%; }
+    .total-col { min-width: 90px; width: 13%; }
+
+    /* Input size */
+    .qty { max-width: 70px; }
+    .unit { max-width: 100px; }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+
+        /* Table minimum width for scroll */
+        .table {
+            min-width: 750px;
+        }
+
+        .qty { max-width: 60px; }
+        .unit { max-width: 80px; }
+    }
+
+</style>
+
     <h1>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Quotation</h1>
 
     <form method="post" id="quotationForm">
@@ -95,19 +167,21 @@
                         <input type="text" name="groups-${groupIndex}-name" class="form-control" placeholder="Group Name" value="${name}">
                         <button type="button" class="btn btn-danger btn-sm remove-group">Remove Group</button>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Qty</th>
-                                <th>Unit</th>
-                                <th>Unit Price</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody class="items-container"></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="desc-col">Description</th>
+                                    <th class="qty-col">Qty</th>
+                                    <th class="unit-col">Unit</th>
+                                    <th class="price-col">Unit Price</th>
+                                    <th class="total-col">Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="items-container"></tbody>
+                        </table>
+                    </div>
                     <div class="text-end">
                         <strong>Subtotal: <span class="subtotal">0.00</span></strong>
                     </div>

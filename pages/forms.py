@@ -5,6 +5,10 @@ class QuotationForm(forms.ModelForm):
     class Meta:
         model = Quotation
         fields = ['title', 'client_name']
+        labels = {
+            'title': 'Capacity',
+            'client_name': 'Name',
+        }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'client_name': forms.TextInput(attrs={'class': 'form-control'}),

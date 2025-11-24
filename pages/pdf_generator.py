@@ -79,7 +79,7 @@ def generate_quotation_pdf(quotation):
 
     # এক লাইনে সব info: Name | Project | Ref | Date
     pdf.cell(50, line_height, f'Name: {quotation.client_name}', border=0)
-    pdf.cell(50, line_height, f'Project: {quotation.title}', border=0)
+    pdf.cell(50, line_height, f'Capacity: {quotation.title}', border=0)
     pdf.cell(45, line_height, f'Ref: Uniko/Sub/120{quotation.pk}', border=0)
     pdf.cell(45, line_height, f'Date: {quotation.created_at.strftime("%d %b %Y")}', ln=1, border=0)
 
@@ -109,7 +109,7 @@ def generate_quotation_pdf(quotation):
     for group in quotation.groups.all():
         # --- Group Title ---
         pdf.set_font('Times', 'B', 12)
-        pdf.cell(190, 6, group.name, 1, 1, 'L')
+        pdf.cell(190, 5, group.name, 1, 1, 'L') # 6 replaced by 5
         pdf.set_font('Times', '', 11)
 
         # --- Items under this group ---
@@ -153,6 +153,7 @@ def generate_quotation_pdf(quotation):
     # ----------------------------
     total_in_words = number_to_words_indian(quotation.total_amount())
     total_in_words = total_in_words.replace('lakh', 'lac').replace('Lakhs', 'Lacs')
+    total_in_words = total_in_words + ' Taka Only'
     pdf.set_font('Times', 'B', 12)
     pdf.cell(25, 10, 'In Words:', 0, 0)
     pdf.set_font('Times', '', 12)
