@@ -63,6 +63,7 @@ class Quotation(models.Model):
     client_name = models.CharField(max_length=255)
     template = models.ForeignKey(QuotationTemplate, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True)
 

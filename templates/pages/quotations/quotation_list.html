@@ -84,6 +84,14 @@
                             <td colspan="7" class="text-center">No active quotations found.</td>
                         </tr>
                         {% endfor %}
+                        <tr>
+                            <td colspan="9" class="text-end" >Total Quotations: {{quotations.paginator.count }}</td>
+                        </tr>
+                        {% comment "This section is temporarily disabled" %}
+                        <tr>
+                            <td >This Page Total Quotations: {{quotations|length }}</td>
+                        </tr>
+                        {% endcomment %}
                     </tbody>
                 </table>
             </div>
