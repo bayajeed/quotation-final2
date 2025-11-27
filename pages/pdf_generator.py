@@ -143,15 +143,24 @@ def generate_quotation_pdf(quotation):
     # 💰 Grand Total
     # ----------------------------
     pdf.set_font('Times', 'B', 12)
-    pdf.cell(162, 7, 'Grand Total', 1, 0, 'R', fill=True)
-    pdf.cell(28, 7, f'{quotation.total_amount():,.2f}', 1, 1, 'R')
+    if quotation.discount > 0:
+        pdf.cell(162, 7, 'Total', 1, 0, 'R', fill=True)
+        pdf.cell(28, 7, f'{quotation.total_amount():,.2f}', 1, 1, 'R')
+        pdf.cell(162, 7, 'Less', 1, 0, 'R', fill=True)
+        pdf.cell(28, 7, f'{quotation.discount:,.2f}', 1, 1, 'R')
+        pdf.cell(162, 7, 'Net Payable Amount', 1, 0, 'R', fill=True)
+        pdf.cell(28, 7, f'{quotation.payable_amount():,.2f}', 1, 1, 'R')
+    else:
+        pdf.cell(162, 7, 'Grand Total', 1, 0, 'R', fill=True)
+        pdf.cell(28, 7, f'{quotation.total_amount():,.2f}', 1, 1, 'R')
+
 
     pdf.ln(1) # Extra gap before total in words
 
     # ----------------------------
     # 🔤 Total in Words
     # ----------------------------
-    total_in_words = number_to_words_indian(quotation.total_amount())
+    total_in_words = number_to_words_indian(quotation.payable_amount())
     total_in_words = total_in_words.replace('lakh', 'lac').replace('Lakhs', 'Lacs')
     total_in_words = total_in_words + ' Taka Only'
     pdf.set_font('Times', 'B', 12)

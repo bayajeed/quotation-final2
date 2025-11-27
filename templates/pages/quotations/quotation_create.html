@@ -100,6 +100,10 @@
                     {% endfor %}
                 </select>
             </div>
+            <div class="col-md-6">
+                <label for="id_discount" class="form-label">{{ form.discount.label }}</label>
+                {{ form.discount }}
+            </div>
         </div>
 
         <hr>
@@ -110,6 +114,9 @@
             <button type="button" class="btn btn-secondary" id="addGroup">Add Group</button>
             <div class="text-end">
                 <h3>Grand Total: <span id="grand-total">0.00</span></h3>
+                <h3>Discount: <span id="discount-amount">0.00</span></h3>
+                <hr>
+                <h3>Net Payable Amount: <span id="net-payable">0.00</span></h3>
             </div>
         </div>
 
@@ -122,6 +129,9 @@
             const groupsContainer = document.getElementById('groups-container');
             const addGroupBtn = document.getElementById('addGroup');
             const grandTotalSpan = document.getElementById('grand-total');
+            const discountAmountSpan = document.getElementById('discount-amount');
+            const netPayableSpan = document.getElementById('net-payable');
+            const discountInput = document.getElementById('id_discount');
             const quotation = {{ quotation_json|safe|default:'null' }};
             const units = [{% for unit in units %}{ id: {{ unit.pk }}, name: '{{ unit.name }}' },{% endfor %}];
 
@@ -129,6 +139,10 @@
                 quotation.groups.forEach(group => {
                     addGroup(group.name, group.items);
                 });
+                if (quotation.discount) {
+                    discountInput.value = quotation.discount;
+                }
+                updateGrandTotal(); // Update totals on load for existing quotation
             }
 
             templateSelect.addEventListener('change', function() {
@@ -157,6 +171,8 @@
             addGroupBtn.addEventListener('click', function() {
                 addGroup();
             });
+
+            discountInput.addEventListener('input', updateGrandTotal);
 
             function addGroup(name = '', items = [{}]) {
                 const groupIndex = groupsContainer.children.length;
@@ -223,7 +239,7 @@
 
                 itemRow.innerHTML = `
                     <input type="hidden" name="groups-${groupIndex}-items-${itemIndex}-item_id" value="${item.id || ''}">
-                    <td><input type="text" name="groups-${groupIndex}-items-${itemIndex}-description" class="form-control" placeholder="Description" value="${description}" ${item.id ? 'readonly' : ''}></td>
+                    <td><input type="text" name="groups-${groupIndex}-items-${itemIndex}-description" class="form-control" placeholder="Description" value="${description}"></td>
                     <td><input type="number" name="groups-${groupIndex}-items-${itemIndex}-qty" class="form-control qty" placeholder="Qty" value="${qty}"></td>
                     <td>
                         <select name="groups-${groupIndex}-items-${itemIndex}-unit" class="form-select unit">
@@ -271,7 +287,12 @@
                 groupsContainer.querySelectorAll('.group').forEach(groupDiv => {
                     grandTotal += parseFloat(groupDiv.querySelector('.subtotal').textContent) || 0;
                 });
+                const discount = parseFloat(discountInput.value) || 0;
+                const netPayable = grandTotal - discount;
+
                 grandTotalSpan.textContent = grandTotal.toFixed(2);
+                discountAmountSpan.textContent = discount.toFixed(2);
+                netPayableSpan.textContent = netPayable.toFixed(2);
             }
         });
     </script>

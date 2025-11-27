@@ -62,5 +62,10 @@
 
     <div class="text-end">
         <h3>Total Amount: {{ quotation.total_amount }}</h3>
+        {% if quotation.discount > 0 %}
+            <h3>Less: {{ quotation.discount }}</h3>
+            <hr>
+            <h3>Net Payable Amount: {{ quotation.payable_amount }}</h3>
+        {% endif %}
     </div>
 {% endblock %}

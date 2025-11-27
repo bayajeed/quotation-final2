@@ -4,14 +4,16 @@ from .models import Quotation, Item, ItemGroup, Unit
 class QuotationForm(forms.ModelForm):
     class Meta:
         model = Quotation
-        fields = ['title', 'client_name']
+        fields = ['title', 'client_name', 'discount']
         labels = {
             'title': 'Capacity',
             'client_name': 'Name',
+            'discount': 'Less',
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'client_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'discount': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 class ItemForm(forms.ModelForm):

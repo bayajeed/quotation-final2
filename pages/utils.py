@@ -120,6 +120,7 @@ def process_groups(request, quotation):
                 QuotationItem.objects.create(
                     group=group,
                     item=item,
+                    description=description,
                     qty=qty,
                     unit_price=unit_price,
                     unit=unit

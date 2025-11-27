@@ -66,9 +66,13 @@ class Quotation(models.Model):
     #updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True)
+    discount = models.FloatField(default=0)
 
     def total_amount(self):
         return sum(group.subtotal() for group in self.groups.all())
+
+    def payable_amount(self):
+        return self.total_amount() - self.discount
 
     def __str__(self):
         return f"{self.client_name} - {self.title}"
