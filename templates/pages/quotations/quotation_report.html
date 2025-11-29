@@ -175,6 +175,14 @@
           <p><strong>Capacity: {{ quotation.title }}</strong></p>
           <p><strong>Ref: #</strong>Uniko/sub/250{{ quotation.pk }}</p>
           <p><strong>Date:</strong> {{ quotation.created_at|date:"d M Y" }}</p>
+          <!-- <p><strong>Updated At:</strong> {{ quotation.updated_at|date:"d M Y" }}</p> -->
+           <!-- 
+            {% if quotation.updated_at > quotation.created_at %}
+                <p><strong>Updated At:</strong> {{ quotation.updated_at|date:"d M Y" }}</p>
+            {% else %}
+                <p><strong>Date:</strong> {{ quotation.created_at|date:"d M Y" }}</p>
+            {% endif %}
+           -->
         </div>
       </div>
       <div>
@@ -231,7 +239,7 @@
               <td class="text-end">{{ quotation.discount|floatformat:2 }}</td>
             </tr>
             <tr class="grand-total-row" >
-              <td colspan="5" class="text-end">Net Payable Amount</td>
+              <td colspan="5" class="text-end">Grand Total</td>
               <td class="text-end">{{ quotation.payable_amount|floatformat:2 }}</td>
             </tr>
             {% else %}
@@ -239,6 +247,7 @@
               <td colspan="5" class="text-end">Grand Total</td>
               <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
             </tr>
+            
             {% endif %}
             <tr class="in-words-row">
               <td colspan="6">
@@ -251,9 +260,7 @@
       <!-- <div class="in-words mt-0">
         <p><strong>In Words: <span id="total-in-words"></span></strong></p>
       </div> -->
-      <div class="footer">
-        <p>Thank you for your business! | Uniko Power</p>
-      </div>
+      
     </div>
 
     <script>

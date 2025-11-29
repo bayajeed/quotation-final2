@@ -148,7 +148,7 @@ def generate_quotation_pdf(quotation):
         pdf.cell(28, 7, f'{quotation.total_amount():,.2f}', 1, 1, 'R')
         pdf.cell(162, 7, 'Less', 1, 0, 'R', fill=True)
         pdf.cell(28, 7, f'{quotation.discount:,.2f}', 1, 1, 'R')
-        pdf.cell(162, 7, 'Net Payable Amount', 1, 0, 'R', fill=True)
+        pdf.cell(162, 7, 'Grand Total', 1, 0, 'R', fill=True)
         pdf.cell(28, 7, f'{quotation.payable_amount():,.2f}', 1, 1, 'R')
     else:
         pdf.cell(162, 7, 'Grand Total', 1, 0, 'R', fill=True)

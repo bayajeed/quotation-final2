@@ -42,6 +42,7 @@
                             <th>Client</th>
                             <th>Title</th>
                             <th>Created At</th>
+                            <!-- <th>Updated At</th> -->
                             <th>Status</th>
                             <th>User</th>
                             <th class="text-end">Payable Amount</th>
@@ -56,6 +57,7 @@
                             <td>{{ quotation.client_name }}</td>
                             <td>{{ quotation.title }}</td>
                             <td>{{ quotation.created_at|date:"d M Y" }}</td>
+                            <!-- <td>{{ quotation.updated_at|date:"d M Y" }}</td> -->
                             <td>{{ quotation.get_status_display }}</td>
                             <td>
                                 {% if quotation.user %}
