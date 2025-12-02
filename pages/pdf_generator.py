@@ -80,7 +80,7 @@ def generate_quotation_pdf(quotation):
     # এক লাইনে সব info: Name | Project | Ref | Date
     pdf.cell(50, line_height, f'Name: {quotation.client_name}', border=0)
     pdf.cell(50, line_height, f'Capacity: {quotation.title}', border=0)
-    pdf.cell(45, line_height, f'Ref: Uniko/Sub/120{quotation.pk}', border=0)
+    pdf.cell(45, line_height, f'Ref: Uniko/Sub/{quotation.reference}', border=0)
     pdf.cell(45, line_height, f'Date: {quotation.created_at.strftime("%d %b %Y")}', ln=1, border=0)
 
     # Extra gap বাদ দিতে ছোট ln ব্যবহার করা হয়েছে

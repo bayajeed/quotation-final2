@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class ItemGroup(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -59,6 +60,8 @@ class Quotation(models.Model):
         ('rejected', 'Rejected'),
         ('achieved', 'Achieved'),
     )
+    reference = models.CharField(max_length=20, null=True, blank=True)
+
     title = models.CharField(max_length=255)
     client_name = models.CharField(max_length=255)
     template = models.ForeignKey(QuotationTemplate, on_delete=models.SET_NULL, null=True, blank=True)
@@ -77,6 +80,26 @@ class Quotation(models.Model):
     def __str__(self):
         return f"{self.client_name} - {self.title}"
 
+    def save(self, *args, **kwargs):
+        if not self.reference:
+            current_year = datetime.now().year % 100   # 2025 → 25
+            current_month = datetime.now().month
+
+            prefix = f"{current_year:02d}{current_month:02d}"  # 2506
+
+            # ওই বছরের সর্বশেষ নম্বর বের করা
+            last_quote = Quotation.objects.filter(reference__startswith=prefix).order_by('-reference').first()
+
+            if last_quote:
+                last_number = int(last_quote.reference[4:])  # 250601 → 0001
+                new_number = last_number + 1
+            else:
+                new_number = 1
+
+            # Format: 25 + 0001 → 250001
+            self.reference = f"{prefix}{new_number:03d}"
+
+        super().save(*args, **kwargs)
 
 class QuotationGroup(models.Model):
     quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, related_name='groups')
