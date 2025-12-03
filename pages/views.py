@@ -288,4 +288,3 @@ def quotation_pdf_view(request, pk):
     response = HttpResponse(pdf_file, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="quotation_{pk}.pdf"'
     return response
-

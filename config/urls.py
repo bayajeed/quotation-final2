@@ -24,6 +24,7 @@ from django.conf.urls.static import static # for media files
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
+    path('files/', include('file_handler.urls')),
     path('', include('pages.urls')),  # Home and About pages
 ]
 

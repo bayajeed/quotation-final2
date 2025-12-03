@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # Local apps
     'pages',
     'users',
+    'file_handler',
 
     # Third-party apps
     'rest_framework',

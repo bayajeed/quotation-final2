@@ -20,20 +20,12 @@
                             <a class="nav-link" href="{% url 'quotation_list' %}">Dashboard</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Technical Data Download
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                File Management
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'item_list' %}">150 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'itemgroup_list' %}">200 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">250 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">315 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">400 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">500 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">630 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">750 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">800 KVA</a></li>
-                                <li><a class="dropdown-item" href="{% url 'unit_list' %}">1000 KVA</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownFile">
+                                <li><a class="dropdown-item" href="{% url 'file_handler:upload_file' %}">Upload File</a></li>
+                                <li><a class="dropdown-item" href="{% url 'file_handler:file_list' %}">My Files</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
