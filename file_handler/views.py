@@ -90,5 +90,15 @@ def delete_file(request, file_id):
     else:
         uploaded_file = get_object_or_404(UploadedFile, pk=file_id, user=request.user)
 
+    # Temporarily disabled for template for user confirmation
+    # uploaded_file.delete()
+    # return redirect('file_handler:file_list')
+
+    # file delete from media folder
+    if uploaded_file.file:
+        uploaded_file.file.delete(save=False)
+
+    # delete record from database
     uploaded_file.delete()
+
     return redirect('file_handler:file_list')

@@ -10,3 +10,10 @@ class UploadedFile(models.Model):
 
     def __str__(self):
         return self.title
+    
+    # Override the delete method to remove the file from the media folder when the model instance is deleted
+    def delete(self, *args, **kwargs):
+        # delete file from media folder
+        if self.file:
+            self.file.delete(save=False)
+        super().delete(*args, **kwargs)
