@@ -120,7 +120,9 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Save Quotation</button>
+        <button type="submit" class="btn btn-primary mt-3">
+            {% if form.instance.pk %}Update Quotation{% else %}Save Quotation{% endif %}
+        </button>
     </form>
 
     <script>
@@ -227,7 +229,7 @@
                 itemRow.classList.add('item');
 
                 const item = itemData.item || {};
-                const description = item.name || itemData.description || '';
+                const description = itemData.description || item.name || '';
                 const unitPrice = itemData.unit_price !== null && itemData.unit_price !== undefined ? itemData.unit_price : (item.unit_price || 0);
                 const qty = itemData.qty !== undefined ? itemData.qty : 1;
 
