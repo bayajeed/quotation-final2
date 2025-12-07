@@ -23,6 +23,12 @@ def upload_file(request):
 
 @login_required
 def file_list(request):
+    """Searching and filtering files"""
+    
+
+    """List files with permission rules and filtering"""
+    category_filter = request.GET.get('category', '')
+
     """
     Superuser → can see ALL files
     Normal User → can see ONLY their own files
@@ -32,8 +38,18 @@ def file_list(request):
     else:
         files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')
 
-    return render(request, 'file_handler/file_list.html', {'files': files})
+    # Filter apply
+    if category_filter:
+        files = files.filter(category=category_filter)
 
+    files = files.order_by('-uploaded_at')
+    file_choices = UploadedFile.STATIC_CHOICES
+
+    return render(request, 'file_handler/file_list.html', {
+        'files': files,
+        'file_choices': file_choices,
+        'category_filter': category_filter
+    })
 
 @login_required
 def download_file(request, file_id):

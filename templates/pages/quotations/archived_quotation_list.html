@@ -36,6 +36,7 @@
                             <td>{{ quotation.created_at|date:"d M Y" }}</td>
                             <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
                             <td class="text-center">
+                                <a href="{% url 'quotation_view' quotation.pk %}" class="btn btn-sm btn-outline-info me-1">View</a>
                                 <a href="{% url 'unarchive_quotation' quotation.pk %}" class="btn btn-sm btn-outline-success">Unarchive</a>
                             </td>
                         </tr>

@@ -13,6 +13,17 @@
         </div>
 
         <div class="card-body">
+            <form method="get" class="mb-4 d-flex gap-2 align-items-center">
+                <select name="category" class="form-select" style="width: 200px;" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for value, label in file_choices %}
+                    <option value="{{ value }}" 
+                    {% if category_filter == value %}selected{% endif %}>
+                    {{ label }}
+                    </option>
+                {% endfor %}
+                </select>
+            </form>
             {% if files %}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
@@ -20,6 +31,7 @@
                         <tr>
                             <th>SL</th>
                             <th>Title</th>
+                            <th>Category</th>
                             <th>Uploaded At</th>
                             <th>Created By</th>
                             <th style="width: 25%">Actions</th>
@@ -30,6 +42,7 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ file.title }}</td>
+                            <td>{{ file.get_category_display }}</td>
                             <td>{{ file.uploaded_at|date:"Y-m-d H:i" }}</td>
                             <td>{{ file.user.username }}</td>
                             <td>

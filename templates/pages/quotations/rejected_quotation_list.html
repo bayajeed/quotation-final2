@@ -24,6 +24,7 @@
                             <th>Title</th>
                             <th>Created At</th>
                             <th class="text-end">Total Amount</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,9 @@
                             <td>{{ quotation.title }}</td>
                             <td>{{ quotation.created_at|date:"d M Y" }}</td>
                             <td class="text-end">{{ quotation.total_amount|floatformat:2 }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'quotation_view' quotation.pk %}" class="btn btn-sm btn-outline-info me-1">View</a>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>

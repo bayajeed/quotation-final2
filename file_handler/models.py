@@ -22,7 +22,14 @@ def user_directory_path(instance, filename):
     # final path → uploads/<username>/<filename>
     return os.path.join("uploads", folder_name, final_filename)
 
+
 class UploadedFile(models.Model):
+    STATIC_CHOICES = (
+        ('substation', 'Substation'),
+        ('company_profile', 'Company Profile'),
+        ('general', 'General'),
+    )
+    category = models.CharField(max_length=50, choices=STATIC_CHOICES, default='substation', null=True, blank=True , help_text="Select the category of the file.")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to=user_directory_path)

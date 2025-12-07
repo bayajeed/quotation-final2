@@ -285,6 +285,12 @@ def quotation_pdf_view(request, pk):
 
     pdf_file = generate_quotation_pdf(quotation)
 
+     # Create filename using client name and title
+    filename = f"{quotation.client_name}_{quotation.title}.pdf"
+    filename = filename.replace(" ", "-")  # Optional: spaces replace with underscore
+
     response = HttpResponse(pdf_file, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="quotation_{pk}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    #response['Content-Disposition'] = f'attachment; filename="quotation_{pk}.pdf"'
+    #response['Content-Disposition'] = f'inline; filename="{filename}"' # inline mane ki? Browser-e dekhabe download korbe na
     return response
