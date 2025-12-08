@@ -81,12 +81,12 @@
         {% csrf_token %}
         <div class="row mb-3">
             <div class="col-md-6">
-                {{ form.title.label_tag }}
-                {{ form.title }}
-            </div>
-            <div class="col-md-6">
                 {{ form.client_name.label_tag }}
                 {{ form.client_name }}
+            </div>
+            <div class="col-md-6">
+                {{ form.title.label_tag }}
+                {{ form.title }}
             </div>
         </div>
 

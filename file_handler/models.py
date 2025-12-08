@@ -25,7 +25,7 @@ def user_directory_path(instance, filename):
 
 class UploadedFile(models.Model):
     STATIC_CHOICES = (
-        ('substation', 'Substation'),
+        ('substation', 'Substation Technical File'),
         ('company_profile', 'Company Profile'),
         ('general', 'General'),
     )
