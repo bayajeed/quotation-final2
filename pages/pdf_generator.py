@@ -28,7 +28,7 @@ class PDF(FPDF):
         # --- Company Info ---
         self.set_xy(35, 7)  # Set text cursor position
         self.set_font('Arial', 'B', 16)
-        self.cell(0, 6, 'Uniko Power Engineering Ltd.', ln=1)
+        self.cell(0, 6, 'Uniko Power Engineering Company', ln=1)
 
         self.set_x(35)
         self.set_font('Arial', '', 10)

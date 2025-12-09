@@ -76,6 +76,26 @@ class RejectedQuotationListView(ListView):
     def get_queryset(self):
         return Quotation.objects.filter(status='rejected').order_by('-created_at')
 
+# @method_decorator(login_required, name='dispatch')
+# class WorkingQuotationListView(ListView):
+#     model = Quotation
+#     template_name = 'pages/quotations/working_quotation_list.html'
+#     context_object_name = 'quotations'
+#     paginate_by = 10
+
+#     def get_queryset(self):
+#         return Quotation.objects.filter(status='working').order_by('-created_at')
+
+@method_decorator(login_required, name='dispatch')
+class WorkingQuotationListView(ListView):
+    model = Quotation
+    template_name = 'pages/quotations/working_quotation_list.html'
+    context_object_name = 'quotations'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Quotation.objects.filter(status='working').order_by('-created_at')
+
 @method_decorator(login_required, name='dispatch')
 class AchievedQuotationListView(ListView):
     model = Quotation
@@ -106,6 +126,14 @@ def reject_quotation(request, pk):
     quotation.status = 'rejected'
     quotation.save()
     return redirect('quotation_list')
+
+@login_required
+def working_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'working'
+    quotation.save()
+    return redirect('quotation_list')
+
 
 @login_required
 def achieve_quotation(request, pk):

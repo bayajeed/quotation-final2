@@ -58,7 +58,8 @@ class Quotation(models.Model):
         ('active', 'Active'),
         ('archived', 'Archived'),
         ('rejected', 'Rejected'),
-        ('achieved', 'Achieved'),
+        ('working', 'Working'),
+        ('achieved', 'Completed'),
     )
     reference = models.CharField(max_length=20, null=True, blank=True)
 

@@ -28,6 +28,8 @@ from .views import (
     unarchive_quotation,
     reject_quotation,
     achieve_quotation,
+    working_quotation,
+    WorkingQuotationListView
 )
 
 urlpatterns = [
@@ -42,11 +44,13 @@ urlpatterns = [
 
     path('archived/', ArchivedQuotationListView.as_view(), name='archived_quotation_list'),
     path('rejected/', RejectedQuotationListView.as_view(), name='rejected_quotation_list'),
+    path('working/', WorkingQuotationListView.as_view(), name='working_quotation_list'),
     path('achieved/', AchievedQuotationListView.as_view(), name='achieved_quotation_list'),
 
     path('<int:pk>/archive/', archive_quotation, name='archive_quotation'),
     path('<int:pk>/unarchive/', unarchive_quotation, name='unarchive_quotation'),
     path('<int:pk>/reject/', reject_quotation, name='reject_quotation'),
+    path('<int:pk>/working/', working_quotation, name='working_quotation'),
     path('<int:pk>/achieve/', achieve_quotation, name='achieve_quotation'),
 
     path('items/', ItemListView.as_view(), name='item_list'),
