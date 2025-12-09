@@ -18,7 +18,7 @@
                     <li><a class="dropdown-item" href="{% url 'archived_quotation_list' %}">Archived</a></li>
                     <li><a class="dropdown-item" href="{% url 'rejected_quotation_list' %}">Rejected</a></li>
                     <li><a class="dropdown-item" href="{% url 'working_quotation_list' %}">Working</a></li>
-                    <li><a class="dropdown-item" href="{% url 'achieved_quotation_list' %}">Completed</a></li>
+                    <li><a class="dropdown-item" href="{% url 'completed_quotation_list' %}">Completed</a></li>
                 </ul>
             </div>
         </div>
@@ -77,8 +77,8 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item bi bi-archive" href="{% url 'archive_quotation' quotation.pk %}">Archive</a></li>
                                         <li><a class="dropdown-item bi bi-x-circle" href="{% url 'reject_quotation' quotation.pk %}">Reject</a></li>
-                                        <li><a class="dropdown-item bi bi-hourglass-split" href="{% url 'achieve_quotation' quotation.pk %}">Working</a></li>
-                                        <li><a class="dropdown-item bi bi-check-circle" href="{% url 'achieve_quotation' quotation.pk %}">Completed</a></li>
+                                        <li><a class="dropdown-item bi bi-hourglass-split" href="{% url 'working_quotation' quotation.pk %}">Working</a></li>
+                                        <li><a class="dropdown-item bi bi-check-circle" href="{% url 'complete_quotation' quotation.pk %}">Completed</a></li>
                                     </ul>
                                 </div>
                             </td>

@@ -26,14 +26,14 @@ from django.conf import settings
 import os
 
 @method_decorator(login_required, name='dispatch')
-class QuotationListView(ListView):
+class BaseQuotationListView(ListView):
     model = Quotation
-    template_name = 'pages/quotations/quotation_list.html'
     context_object_name = 'quotations'
     paginate_by = 10
+    status = None
 
     def get_queryset(self):
-        queryset = Quotation.objects.filter(status='active').order_by('-created_at')
+        queryset = Quotation.objects.filter(status=self.status).order_by('-created_at')
         search_query = self.request.GET.get('q')
         if search_query:
             queryset = queryset.filter(
@@ -57,61 +57,36 @@ class QuotationListView(ListView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-class ArchivedQuotationListView(ListView):
-    model = Quotation
+class QuotationListView(BaseQuotationListView):
+    template_name = 'pages/quotations/quotation_list.html'
+    status = 'active'
+
+@method_decorator(login_required, name='dispatch')
+class ArchivedQuotationListView(BaseQuotationListView):
     template_name = 'pages/quotations/archived_quotation_list.html'
-    context_object_name = 'quotations'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return Quotation.objects.filter(status='archived').order_by('-created_at')
+    status = 'archived'
 
 @method_decorator(login_required, name='dispatch')
-class RejectedQuotationListView(ListView):
-    model = Quotation
+class RejectedQuotationListView(BaseQuotationListView):
     template_name = 'pages/quotations/rejected_quotation_list.html'
-    context_object_name = 'quotations'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return Quotation.objects.filter(status='rejected').order_by('-created_at')
-
-# @method_decorator(login_required, name='dispatch')
-# class WorkingQuotationListView(ListView):
-#     model = Quotation
-#     template_name = 'pages/quotations/working_quotation_list.html'
-#     context_object_name = 'quotations'
-#     paginate_by = 10
-
-#     def get_queryset(self):
-#         return Quotation.objects.filter(status='working').order_by('-created_at')
+    status = 'rejected'
 
 @method_decorator(login_required, name='dispatch')
-class WorkingQuotationListView(ListView):
-    model = Quotation
+class WorkingQuotationListView(BaseQuotationListView):
     template_name = 'pages/quotations/working_quotation_list.html'
-    context_object_name = 'quotations'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return Quotation.objects.filter(status='working').order_by('-created_at')
+    status = 'working'
 
 @method_decorator(login_required, name='dispatch')
-class AchievedQuotationListView(ListView):
-    model = Quotation
-    template_name = 'pages/quotations/achieved_quotation_list.html'
-    context_object_name = 'quotations'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return Quotation.objects.filter(status='achieved').order_by('-created_at')
+class CompletedQuotationListView(BaseQuotationListView):
+    template_name = 'pages/quotations/completed_quotation_list.html'
+    status = 'completed'
 
 @login_required
 def archive_quotation(request, pk):
     quotation = get_object_or_404(Quotation, pk=pk)
     quotation.status = 'archived'
     quotation.save()
-    return redirect('quotation_list')
+    return redirect('archived_quotation_list')
 
 @login_required
 def unarchive_quotation(request, pk):
@@ -125,22 +100,43 @@ def reject_quotation(request, pk):
     quotation = get_object_or_404(Quotation, pk=pk)
     quotation.status = 'rejected'
     quotation.save()
-    return redirect('quotation_list')
+    return redirect('rejected_quotation_list')
+
+@login_required
+def unreject_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'active'
+    quotation.save()
+    return redirect('rejected_quotation_list')
 
 @login_required
 def working_quotation(request, pk):
     quotation = get_object_or_404(Quotation, pk=pk)
     quotation.status = 'working'
     quotation.save()
-    return redirect('quotation_list')
+    return redirect('working_quotation_list')
+
+@login_required
+def unwork_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'active'
+    quotation.save()
+    return redirect('working_quotation_list')
 
 
 @login_required
-def achieve_quotation(request, pk):
+def complete_quotation(request, pk):
     quotation = get_object_or_404(Quotation, pk=pk)
-    quotation.status = 'achieved'
+    quotation.status = 'completed'
     quotation.save()
-    return redirect('quotation_list')
+    return redirect('completed_quotation_list')
+
+@login_required
+def uncomplete_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    quotation.status = 'active'
+    quotation.save()
+    return redirect('completed_quotation_list')
 
 
 @method_decorator(login_required, name='dispatch')

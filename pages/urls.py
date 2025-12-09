@@ -23,12 +23,15 @@ from .views import (
     quotation_pdf_view,
     ArchivedQuotationListView,
     RejectedQuotationListView,
-    AchievedQuotationListView,
+    CompletedQuotationListView,
     archive_quotation,
     unarchive_quotation,
     reject_quotation,
-    achieve_quotation,
+    unreject_quotation,
     working_quotation,
+    unwork_quotation,
+    complete_quotation,
+    uncomplete_quotation,
     WorkingQuotationListView
 )
 
@@ -45,13 +48,16 @@ urlpatterns = [
     path('archived/', ArchivedQuotationListView.as_view(), name='archived_quotation_list'),
     path('rejected/', RejectedQuotationListView.as_view(), name='rejected_quotation_list'),
     path('working/', WorkingQuotationListView.as_view(), name='working_quotation_list'),
-    path('achieved/', AchievedQuotationListView.as_view(), name='achieved_quotation_list'),
+    path('completed/', CompletedQuotationListView.as_view(), name='completed_quotation_list'),
 
     path('<int:pk>/archive/', archive_quotation, name='archive_quotation'),
     path('<int:pk>/unarchive/', unarchive_quotation, name='unarchive_quotation'),
     path('<int:pk>/reject/', reject_quotation, name='reject_quotation'),
+    path('<int:pk>/unreject/', unreject_quotation, name='unreject_quotation'),
     path('<int:pk>/working/', working_quotation, name='working_quotation'),
-    path('<int:pk>/achieve/', achieve_quotation, name='achieve_quotation'),
+    path('<int:pk>/unwork/', unwork_quotation, name='unwork_quotation'),
+    path('<int:pk>/complete/', complete_quotation, name='complete_quotation'),
+    path('<int:pk>/uncomplete/', uncomplete_quotation, name='uncomplete_quotation'),
 
     path('items/', ItemListView.as_view(), name='item_list'),
     path('items/create/', ItemCreateView.as_view(), name='item_create'),
