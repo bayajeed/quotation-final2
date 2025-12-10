@@ -7,13 +7,13 @@ class QuotationForm(forms.ModelForm):
         fields = ['title', 'client_name', 'discount']
         labels = {
             'title': 'Capacity',
-            'client_name': 'Name',
+            'client_name': 'Client Name',
             'discount': 'Less',
         }
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'client_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'discount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Capacity — e.g. 315 KVA'}),
+            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Client Name'}),
+            'discount': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Discount Amount'}),
         }
 
 class ItemForm(forms.ModelForm):

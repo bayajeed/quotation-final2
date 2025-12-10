@@ -51,12 +51,39 @@ class PDF(FPDF):
     def footer(self):
         """
         Footer অংশে:
-        - পেজ নাম্বার দেখাবে "Page 1/3" এইরকমভাবে
+        - একটা লাইন
+        - "Thank you" মেসেজ ও company name
+        - পেজ নাম্বার
         """
+        self.set_y(-18)
+        
+        # Horizontal line
+        self.set_line_width(0.5)
+        self.set_draw_color(100, 100, 100)
+        self.line(10, self.get_y(), 200, self.get_y())
+        
+        self.ln(2)
+        
+        # Thank you message
+        self.set_font('Arial', 'I', 9)
+        self.set_text_color(80, 80, 80)
+        self.cell(0, 5, 'Thank you for your business! | Uniko Power', 0, 1, 'C')
+        
+        # Page number
+        self.set_font('Arial', 'I', 8)
+        self.set_text_color(128, 128, 128)
+        self.cell(0, 4, f'Page {self.page_no()}/{{nb}}', 0, 0, 'C')
+        
+        
+        """
+        Old
+        Footer অংশে: 
+        - পেজ নাম্বার দেখাবে "Page 1/3" এইরকমভাবে
+        
         self.set_y(-10)  # 15mm উপরে থেকে শুরু হবে
         self.set_font('Arial', 'I', 8)
         self.cell(0, 10, f'Page {self.page_no()}/{{nb}}', 0, 0, 'C')
-
+        """
 
 # ===========================================
 # Function: generate_quotation_pdf
